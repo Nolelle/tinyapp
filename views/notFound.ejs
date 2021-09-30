@@ -17,38 +17,10 @@
     <title>TinyApp</title>
   </head>
   <body>
-    <%- include('partials/_header') %>
-    <main style="margin: 1em">
-      <h3>My URLs</h3>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Short URL</th>
-            <th scope="col">Long URL</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% for(let url in urls) { const shortURL = urls[url] %>
-          <tr>
-            <td><%= url %></td>
-            <td><%= shortURL.longURL %></td>
-            <form method="GET" action="/urls/<%=url%>">
-              <td>
-                <button type="submit" class="btn btn-primary">Edit</button>
-              </td>
-            </form>
-            <form method="POST" action="/urls/<%=url%>/delete">
-              <td>
-                <button type="submit" class="btn btn-primary">Delete</button>
-              </td>
-            </form>
-          </tr>
-          <% } %>
-        </tbody>
-      </table>
-    </main>
+    <div>
+      <h1>404 Resource Not Found</h1>
+    </div>
+    
     <!-- Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -65,5 +37,4 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-  </body>
-</html>
+  </body
