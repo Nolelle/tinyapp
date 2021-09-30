@@ -3,12 +3,7 @@ const morgan = require("morgan");
 const PORT = 8080; // default port 8080
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const {
-  generateRandomString,
-  findUserByEmail,
-  findUserByPassword,
-  findUserID,
-} = require("./helpers.js");
+const { generateRandomString, findUserByEmail } = require("./helpers.js");
 
 const app = express();
 app.set("view engine", "ejs");
@@ -44,7 +39,6 @@ app.get("/", (req, res) => {
 app.get("/urls", (req, res) => {
   const userID = req.cookies.user_id;
   const templateVars = { urls: urlDatabase, user: users[userID] };
-  console.log(users);
   res.render("urls_index", templateVars);
 });
 
@@ -96,13 +90,13 @@ app.get("/login", (req, res) => {
 app.post("/urls", (req, res) => {
   let shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body.longURL;
-  // console.log(urlDatabase);
+
   res.redirect(`/urls/${shortURL}`);
 });
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL;
   delete urlDatabase[shortURL];
-  // console.log(urlDatabase);
+
   res.redirect("/urls");
 });
 
@@ -140,7 +134,6 @@ app.post("/register", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const id = generateRandomString();
-  console.log("id", id);
 
   if (!email || !password) {
     return res.status(400).send("Please enter a email and a password");
@@ -156,7 +149,6 @@ app.post("/register", (req, res) => {
     email,
     password,
   };
-  console.log(users);
   res.cookie("user_id", users.id);
   res.redirect("/urls");
 });
