@@ -47,6 +47,10 @@ app.get("/urls/new", (req, res) => {
   const templateVars = {
     user: users[userID],
   };
+  if (!userID) {
+    res.redirect(`/login`);
+    return;
+  }
   res.render("urls_new", templateVars);
 });
 
@@ -89,8 +93,12 @@ app.get("/login", (req, res) => {
 //posts routes
 app.post("/urls", (req, res) => {
   let shortURL = generateRandomString();
+  const userID = req.cookies.user_id;
   urlDatabase[shortURL] = req.body.longURL;
-
+  if (!userID) {
+    res.send("You must be logged in to shorten a URL");
+    return;
+  }
   res.redirect(`/urls/${shortURL}`);
 });
 app.post("/urls/:shortURL/delete", (req, res) => {
