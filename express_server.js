@@ -8,21 +8,34 @@ const { generateRandomString, findUserByEmail } = require("./helpers.js");
 const app = express();
 app.set("view engine", "ejs");
 
-const urlDatabase = {
-  b2xVn2: "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com",
-};
-
 const users = {
-  userRandomID: {
-    id: "userRandomID",
+  id1: {
+    id: "id1",
     email: "123@123.com",
     password: "123",
   },
-  user2RandomID: {
-    id: "user2RandomID",
-    email: "user2@example.com",
-    password: "dishwasher-funk",
+  id2: {
+    id: "id2",
+    email: "1234@123.com",
+    password: "1234",
+  },
+};
+const urlDatabase = {
+  b6UTxQ: {
+    longURL: "https://www.tsn.ca",
+    userID: "id1",
+  },
+  i3BoGr: {
+    longURL: "https://www.google.ca",
+    userID: "id1",
+  },
+  i3CoGr: {
+    longURL: "https://www.nfl.com",
+    userID: "id1",
+  },
+  o4LiGr: {
+    longURL: "https://www.nhl.com",
+    userID: "id2",
   },
 };
 
@@ -38,7 +51,13 @@ app.get("/", (req, res) => {
 
 app.get("/urls", (req, res) => {
   const userID = req.cookies.user_id;
-  const templateVars = { urls: urlDatabase, user: users[userID] };
+  const templateVars = {
+    urls: urlDatabase,
+    user: users[userID],
+    userID,
+  };
+  // console.log(users);
+  // console.log(urlDatabase);
   res.render("urls_index", templateVars);
 });
 
@@ -57,16 +76,20 @@ app.get("/urls/new", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const userID = req.cookies.user_id;
+  const user = urlDatabase[shortURL];
+  const longURL = user.longURL;
+
   const templateVars = {
     user: users[userID],
     shortURL,
-    longURL: urlDatabase[shortURL],
+    longURL,
   };
   res.render("urls_show", templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL];
+  const url = urlDatabase[req.params.shortURL];
+  const longURL = url.longURL;
   res.redirect(longURL);
 });
 
@@ -93,8 +116,9 @@ app.get("/login", (req, res) => {
 //posts routes
 app.post("/urls", (req, res) => {
   let shortURL = generateRandomString();
+  let longURL = req.body.longURL;
   const userID = req.cookies.user_id;
-  urlDatabase[shortURL] = req.body.longURL;
+  urlDatabase[shortURL] = { longURL, userID };
   if (!userID) {
     res.send("You must be logged in to shorten a URL");
     return;
@@ -110,7 +134,8 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 app.post("/urls/:id", (req, res) => {
   let shortURL = req.params.id;
-  urlDatabase[shortURL] = req.body.longURL;
+  let user = urlDatabase[shortURL];
+  user.longURL = req.body.longURL;
   res.redirect(`/urls`);
 });
 
