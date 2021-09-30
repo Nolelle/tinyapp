@@ -6,7 +6,6 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -17,8 +16,10 @@
     <title>TinyApp</title>
   </head>
   <body>
+    <%- include('partials/_header') %>
     <main style="margin: 1em">
       <div>
+        <h3>Login</h3>
         <form class="form-inline" action="/login" method="POST">
           <label for="email"></label>
           <input
@@ -36,7 +37,7 @@
             placeholder="Password"
             style="width: 300px; margin: 1em"
           />
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Login</button>
         </form>
       </div>
     </main>

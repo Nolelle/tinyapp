@@ -14,15 +14,42 @@ function generateRandomString() {
     i++;
   }
 }
-//fucntion to check if email already exists.
+//function to check if email exists in an object. (users)
 const findUserByEmail = (email, obj) => {
   for (const userId in obj) {
     const user = obj[userId];
     if (user.email === email) {
+      return user;
+    }
+  }
+  return null;
+};
+
+//function to check if password exists in an object. (users)
+const findUserByPassword = (password, obj) => {
+  for (const userId in obj) {
+    const user = obj[userId];
+    if (user.password === password) {
       return true;
     }
   }
   return false;
 };
 
-module.exports = { generateRandomString, findUserByEmail };
+const findUserID = (email, obj) => {
+  for (const userId in obj) {
+    const user = obj[userId];
+    if (user.email === email) {
+      const userID = user.id;
+      return userID;
+    }
+  }
+  return false;
+};
+
+module.exports = {
+  generateRandomString,
+  findUserByEmail,
+  findUserByPassword,
+  findUserID,
+};
