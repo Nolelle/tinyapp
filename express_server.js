@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const PORT = 8080; // default port 8080
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const bcrypt = require("bcryptjs");
 const {
   generateRandomString,
   findUserByEmail,
@@ -16,12 +17,12 @@ const users = {
   id1: {
     id: "id1",
     email: "123@123.com",
-    password: "123",
+    password: bcrypt.hashSync("123", 10),
   },
   id2: {
     id: "id2",
     email: "1234@123.com",
-    password: "1234",
+    password: bcrypt.hashSync("1234", 10),
   },
 };
 const urlDatabase = {
@@ -64,8 +65,8 @@ app.get("/urls", (req, res) => {
     user: users[userID],
     userID,
   };
-  // console.log(users);
-  // console.log(urlDatabase);
+  console.log(users);
+  console.log(urlDatabase);
   res.render("urls_index", templateVars);
 });
 
@@ -198,7 +199,7 @@ app.post("/login", (req, res) => {
   if (!user) {
     return res.status(400).send("Cannot find user email.");
   }
-  if (user.password !== password) {
+  if (!bcrypt.compareSync(password, user.password)) {
     return res.status(400).send("Password does not match");
   }
 
@@ -214,6 +215,7 @@ app.post("/logout", (req, res) => {
 app.post("/register", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  const hashedPassword = bcrypt.hashSync(password, 10);
   const id = generateRandomString();
 
   if (!email || !password) {
@@ -228,10 +230,10 @@ app.post("/register", (req, res) => {
   users[id] = {
     id,
     email,
-    password,
+    password: hashedPassword,
   };
   res.cookie("user_id", users.id);
-  res.redirect("/urls");
+  res.redirect("/login");
 });
 
 app.listen(PORT, () => {
