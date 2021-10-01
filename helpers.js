@@ -14,17 +14,18 @@ const generateRandomString = function () {
     i++;
   }
 };
-//function to check if email exists in an object. (users)
-const findUserByEmail = function (email, obj) {
+//Check if email exists in an object. (users)
+const getUserByEmail = function (email, obj) {
   for (const userId in obj) {
     const user = obj[userId];
     if (user.email === email) {
       return user;
     }
   }
-  return null;
+  return undefined;
 };
 
+//returns an object of urls attached to the user
 const urlsForUser = function (id, db) {
   const userURLs = {};
   for (let url in db) {
@@ -38,6 +39,6 @@ const urlsForUser = function (id, db) {
 
 module.exports = {
   generateRandomString,
-  findUserByEmail,
+  getUserByEmail,
   urlsForUser,
 };
