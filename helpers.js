@@ -1,12 +1,12 @@
 //returns a string of 6 random alphanumeric characters:
 const generateRandomString = function () {
-  let arr = [];
+  const arr = [];
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let i = 0;
   while (i <= 6) {
-    let randomNum = Math.floor(Math.random() * characters.length);
-    let nextLetter = characters.charAt(randomNum);
+    const randomNum = Math.floor(Math.random() * characters.length);
+    const nextLetter = characters.charAt(randomNum);
     arr.push(nextLetter);
     if (arr.length > 6) {
       return arr.join("");
@@ -14,7 +14,8 @@ const generateRandomString = function () {
     i++;
   }
 };
-//Check if email exists in an object. (users)
+
+//returns the user object if email is found, otherwise return undefined.
 const getUserByEmail = function (email, obj) {
   for (const userId in obj) {
     const user = obj[userId];
