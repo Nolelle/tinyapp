@@ -13,37 +13,9 @@ const {
 const app = express();
 app.set("view engine", "ejs");
 
-const users = {
-  id1: {
-    id: "id1",
-    email: "123@123.com",
-    password: bcrypt.hashSync("123", 10),
-  },
-  id2: {
-    id: "id2",
-    email: "1234@123.com",
-    password: bcrypt.hashSync("1234", 10),
-  },
-};
+const users = {};
 
-const urlDatabase = {
-  b6UTxQ: {
-    longURL: "https://www.tsn.ca",
-    userID: "id1",
-  },
-  i3BoGr: {
-    longURL: "https://www.google.ca",
-    userID: "id1",
-  },
-  i3CoGr: {
-    longURL: "https://www.nfl.com",
-    userID: "id1",
-  },
-  o4LiGr: {
-    longURL: "https://www.nhl.com",
-    userID: "id2",
-  },
-};
+const urlDatabase = {};
 
 //middleware
 app.use(morgan("dev"));
