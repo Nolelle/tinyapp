@@ -63,7 +63,7 @@ app.get("/", (req, res) => {
 app.get("/urls", (req, res) => {
   const userID = req.session.user_id;
   if (!userID) {
-    return res.status(403).redirect("/login");
+    return res.status(403).redirect("/error");
   }
 
   const urls = urlsForUser(userID, urlDatabase);
@@ -112,13 +112,9 @@ app.get("/urls/:shortURL", (req, res) => {
 
 app.get("/u/:shortURL", (req, res) => {
   const url = urlDatabase[req.params.shortURL];
-  const shortURL = req.params.shortURL;
-  const userID = req.session.user_id;
+
   if (!url) {
     return res.redirect("/notFound");
-  }
-  if (urlDatabase[shortURL].userID !== userID) {
-    return res.status(403).redirect("/error");
   }
   const longURL = url.longURL;
 
